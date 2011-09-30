@@ -19,7 +19,7 @@ setup(
 		"Environment :: Console",
 		"Intended Audience :: Developers",
 		"Intended Audience :: System Administrators",
-		"License :: OSI Approved :: MIT License",
+		"License :: OSI Approved :: BSD License",
 		"Operating System :: OS Independent",
 		"Programming Language :: Python",
 		"Programming Language :: Python :: 2.7",
