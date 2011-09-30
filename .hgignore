@@ -1,0 +1,11 @@
+syntax: glob
+dist
+
+syntax: glob
+*.egg-info
+
+syntax: glob
+*.pyc
+
+syntax: glob
+*.pem
