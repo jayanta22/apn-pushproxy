@@ -15,10 +15,11 @@ from flask import Flask, request
 from hashlib import sha256
 
 # The output log file
-LOG_FILE = os.path.expanduser("~/pushproxy.log")
+LOG_FILE = os.path.expanduser("~/.pushproxy.log")
 
 # Server's configuration file
-CONFIG_FILE = "config.yaml"
+ROOT_DIR = os.path.dirname(__file__)
+CONFIG_FILE = os.path.join(ROOT_DIR, "config.yaml")
 
 # Loads all the configiration options
 try:
