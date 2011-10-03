@@ -206,8 +206,6 @@ def main():
 
 
 if __name__ == "__main__":
-    app.debug = True
-    
     fmt = logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
     handler = logging.FileHandler(LOG_FILE)
     handler.setFormatter(fmt)
