@@ -12,7 +12,7 @@ setup(
 	license="MIT",
 	description="HTTP proxy for Apple Push Notification Service",
 
-	requires=['Flask'],
+	requires=['Flask','PyYaml'],
 
 	classifiers = [
 		"Development Status :: 3 - Alpha",
