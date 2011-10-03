@@ -1,0 +1,3 @@
+security_key: VERY_SECURE_KEY
+development_cert: dev_certificate.pem
+production_cert: prod_certificate.pem
