@@ -1,4 +1,5 @@
 #!/usr/bin/env python2.7
+
 import os
 import logging
 import sys
@@ -31,11 +32,11 @@ SECRET_KEY = config['security_key']
 
 # Host name and certificate for the production APN servers
 APN_PRODUCTION_HOST = ('gateway.push.apple.com', 2195)
-APN_PRODUCTION_CERT = config['production_cert'] #prod_certificate.pem'
+APN_PRODUCTION_CERT = config['production_cert'] 
  
 # Host name and certificate for sandboxed APN servers
 APN_SANDBOX_HOST = ('gateway.sandbox.push.apple.com', 2195)
-APN_SANDBOX_CERT = config['development_cert'] #dev_certificate.pem'
+APN_SANDBOX_CERT = config['development_cert']
 
 
 APN_ERRORS = {
@@ -71,13 +72,17 @@ def send_apn(data_socket, notification):
 def safe_send_apn(notification, use_sandbox=False, retries=3):
     ''' Send the APN notifications, retrying if necessary '''
     
+    logging.debug("Use sandbox: %s", use_sandbox)
+    
     while retries:
         # Pick the socket to send data to
         data_socket = sandbox_socket if use_sandbox else production_socket
 
         try:        
             send_apn(data_socket, notification)
+            data_socket.setblocking(0)
             bin_response = data_socket.read()
+            data_socket.setblocking(1)
             logging.info("APN response: %r", bin_response)
 
             if len(bin_response) == 0:
@@ -125,7 +130,6 @@ def check_signature(payload, client_sign):
     ''' Checks the digital signature sent with the remote request '''
 
     calculated_sign = sha256(payload + SECRET_KEY).hexdigest()
-    logging.debug(calculated_sign)
     if calculated_sign != client_sign:
         return False
     return True
@@ -181,18 +185,19 @@ def main():
         return "BAD_TOKENS"
 
     # Format the header of the APN notification
-    payload = payload.encode('ascii', errors='ignore')
-    apn_data = '!BLLH32sH%ds' % len(payload)
+    payload = payload.encode('ascii')
+    apn_data = '!BiiH32sH%ds' % len(payload)
     
     try:
         apn_notification = r''
         for token in device_tokens:
             # Strip the token and pack the notification data into a
             # binary format.
-            token = token.strip().decode('hex')
-            apn_notification += struct.pack(apn_data, 0, provider_identifier, expiry, 32, token, len(payload), payload)
+            token = token.replace(' ','').decode('hex')
+            apn_notification += struct.pack(apn_data, 1, provider_identifier,
+                expiry, 32, token, len(payload), payload)
         
-        safe_send_apn(apn_notification, use_sandbox = use_sandbox)
+        safe_send_apn(apn_notification, use_sandbox = False)
 
     except TypeError:
         return "BAD_DEVICE"

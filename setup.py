@@ -5,7 +5,7 @@ from setuptools import setup
 
 setup(
 	name="apn-pushproxy",
-	version="0.1",
+	version="0.2",
 	author="Piotr Duda, Karol Kuczmarski",
 	author_email="piotr.duda@polidea.pl, karol.kuczmarski@polidea.pl",
 	url="http://code.google.com/a/apn-pushproxy",
