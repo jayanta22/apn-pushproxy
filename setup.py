@@ -12,7 +12,7 @@ setup(
 	license="MIT",
 	description="HTTP proxy for Apple Push Notification Service",
 
-	requires=['Flask','PyYaml'],
+	install_requires=['Flask','PyYaml'],
 
 	classifiers = [
 		"Development Status :: 3 - Alpha",
@@ -33,4 +33,5 @@ setup(
 	],
 
 	scripts = ['apn_pushproxy.py'],
+	
 )
